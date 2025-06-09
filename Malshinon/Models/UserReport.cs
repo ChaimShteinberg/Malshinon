@@ -6,7 +6,18 @@ using System.Threading.Tasks;
 
 namespace Malshinon.Models
 {
-    internal class Report
+    internal class UserReport
     {
+        public string? Reporter {  get; set; }
+        public string? Target { get; set; }
+        public string? Report {  get; set; }
+        public DateTime ReportingTime { get; set; }
+
+        public UserReport()
+        {
+            this.ReportingTime = DateTime.Now;
+        }
+
+
     }
 }

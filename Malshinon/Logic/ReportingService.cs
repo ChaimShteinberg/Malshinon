@@ -47,6 +47,13 @@ namespace Malshinon.Logic
                 return;
             }
             report.Reporter = reporter.SecretCode;
+
+            Target target = HandleTarget(userReport);
+            if (target == null)
+            {
+                return;
+            }
+            report.Target = target.SecretCode;
         }
 
         static Reporter? HandleReporter(UserReport userReport)
@@ -71,6 +78,28 @@ namespace Malshinon.Logic
             return reporter;
         }
 
-        
+        static Target? HandleTarget(UserReport userReport)
+        {
+
+
+            Person person = PersonService.SearchPerson(userReport.Reporter);
+            if (person == null)
+            {
+                return null;
+            }
+            int secretCode = person.SecretCode;
+
+            Target? target = TargetService.SearchTarget(secretCode);
+            if (target == null)
+            {
+                TargetService.CreateTarget(secretCode);
+                target = TargetService.SearchTarget(secretCode);
+            }
+
+            //עדיין לא טופל בדירוג
+
+            return target;
+        }
+
     }
 }

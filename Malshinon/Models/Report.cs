@@ -9,7 +9,7 @@ namespace Malshinon.Models
     internal class Report
     {
         public int? Reporter { get; set; }
-        public string? Target { get; set; }
+        public int? Target { get; set; }
         public string? ReportText { get; set; }
         public DateTime ReportingTime { get; set; }
     }

@@ -21,3 +21,10 @@ CREATE TABLE reporter(
     rating int, 
     FOREIGN KEY (secret_code) REFERENCES people(secret_code)
     );
+    
+CREATE TABLE target(
+    secret_code int,
+    report_count int,
+    rating int, 
+    FOREIGN KEY (secret_code) REFERENCES people(secret_code)
+    );

@@ -26,7 +26,7 @@ namespace Malshinon.Logic
                     Console.Write("Enter the target name: ");
                     userReport.Target = Console.ReadLine();
                     Console.Write("Enter the report: ");
-                    userReport.Report = Console.ReadLine();
+                    userReport.ReportText = Console.ReadLine();
                     HandleReport(userReport);
                 }
                 catch (Exception ex)
@@ -54,6 +54,11 @@ namespace Malshinon.Logic
                 return;
             }
             report.Target = target.SecretCode;
+
+            report.ReportText = userReport.ReportText;
+            report.ReportingTime = userReport.ReportingTime;
+
+            ReportService.CreateReport(report);
         }
 
         static Reporter? HandleReporter(UserReport userReport)

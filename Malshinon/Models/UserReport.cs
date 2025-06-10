@@ -10,7 +10,7 @@ namespace Malshinon.Models
     {
         public string Reporter { get; set; }
         public string Target { get; set; }
-        public string Report { get; set; }
+        public string ReportText { get; set; }
         public DateTime ReportingTime { get; set; }
 
         public UserReport()

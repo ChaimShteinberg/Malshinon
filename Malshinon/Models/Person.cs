@@ -8,5 +8,7 @@ namespace Malshinon.Models
 {
     internal class Person
     {
+        public int SecretCode { get; set; }
+        public string Name { get; set; }
     }
 }

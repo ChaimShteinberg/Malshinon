@@ -8,9 +8,9 @@ namespace Malshinon.Models
 {
     internal class UserReport
     {
-        public string? Reporter {  get; set; }
-        public string? Target { get; set; }
-        public string? Report {  get; set; }
+        public string Reporter { get; set; }
+        public string Target { get; set; }
+        public string Report { get; set; }
         public DateTime ReportingTime { get; set; }
 
         public UserReport()

@@ -38,25 +38,37 @@ namespace Malshinon.Logic
 
         static void HandleReport(UserReport userReport)
         {
+
             Report report = new Report();
+
             Reporter? reporter = HandleReporter(userReport);
             if (reporter == null)
             {
                 return;
             }
+            report.Reporter = reporter.SecretCode;
         }
 
         static Reporter? HandleReporter(UserReport userReport)
         {
-            Reporter reporter = new Reporter();
+            
 
-            int? secretSecret = PersonService.SearchSecretCode(userReport.Reporter);
-            if (secretSecret == null)
+            Person person = PersonService.SearchPerson(userReport.Reporter);
+            if (person == null)
             {
-                Console.WriteLine("Wrong choice");
                 return null;
             }
-            reporter.SecretCode = secretSecret;
+            int secretCode = person.SecretCode;
+
+            Reporter? reporter = ReporterService.SearchReporter(secretCode);
+            if (reporter == null)
+            {
+                ReporterService.CreateReporter(secretCode);
+                reporter = ReporterService.SearchReporter(secretCode);
+            }
+            //עדיין לא טופל בדירוג
+
+            return reporter;
         }
 
         

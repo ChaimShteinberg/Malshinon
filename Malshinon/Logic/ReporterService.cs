@@ -25,12 +25,11 @@ namespace Malshinon.Logic
                 {
                     connection.Open();
 
-                    string query = "INSERT INTO `reporter`(`secret_code`, `long_report_count`, `rating`) VALUES ('@secretCode','@long_report_count','@rating')";
+                    string query = "INSERT INTO `reporter`(`secret_code`, `rating`) VALUES (@secret_code, @rating)";
 
                     MySqlCommand command = new MySqlCommand(query, connection);
 
-                    command.Parameters.AddWithValue("@secretCode", secretCode);
-                    command.Parameters.AddWithValue("@long_report_count", 0);
+                    command.Parameters.AddWithValue("@secret_code", secretCode);
                     command.Parameters.AddWithValue("@rating", 0);
 
                     command.ExecuteNonQuery();
@@ -65,7 +64,6 @@ namespace Malshinon.Logic
                     if (reader.Read())
                     {
                         reporter.SecretCode = secretCode;
-                        reporter.LongReportCount = reader.GetInt32("long_report_count");
                         reporter.Rating = reader.GetInt32("Rating");
                         return reporter;
                     }
@@ -77,5 +75,89 @@ namespace Malshinon.Logic
             }
             return null;
         }        
+
+        public static void CalculateReporterRating(int? secretCode)
+        {
+            int sum = GetSumReport(secretCode);
+            double averageLength = GetAverageLength(secretCode);
+
+            if (sum > 10)
+            {
+                sum = 10;
+            }
+
+            if (averageLength > 100)
+            {
+                averageLength = 100;
+            }
+
+            double rating = ((double) sum /4) + ((double) averageLength / 40);
+
+            ApdateRating(secretCode, rating);
+        }
+
+        public static int GetSumReport(int? secretCode)
+        {
+            string connectiomString =
+                "server=localhost;" +
+                "user=root;" +
+                "database=MalshinonDB;";
+
+            using (MySqlConnection connection = new MySqlConnection(connectiomString))
+            {
+                connection.Open();
+                string query = "SELECT COUNT(reporter) AS sum_report_to_reporter FROM `report` WHERE reporter = @reporter;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@reporter", secretCode);
+                MySqlDataReader reader = command.ExecuteReader();
+                reader.Read();
+                int count = reader.GetInt32("sum_report_to_reporter");
+                return count;
+            }
+        }
+
+        public static double GetAverageLength(int? secretCode)
+        {
+            string connectiomString =
+                "server=localhost;" +
+                "user=root;" +
+                "database=MalshinonDB;";
+
+            using (MySqlConnection connection = new MySqlConnection(connectiomString))
+            {
+                connection.Open();
+                string query = "SELECT AVG(LENGTH(ReportText)) AS average_length FROM `report` WHERE reporter = @reporter;";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@reporter", secretCode);
+                MySqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    double averageLength = reader.GetInt32("average_length");
+                    return averageLength;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
+        static void ApdateRating(int? secretCode, double rating)
+        {
+            string connectiomString =
+                "server=localhost;" +
+                "user=root;" +
+                "database=MalshinonDB;";
+
+            using (MySqlConnection connection = new MySqlConnection(connectiomString))
+            {
+                connection.Open();
+                string query = "UPDATE `reporter` SET `rating`=@rating WHERE secret_code = @secretCode";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@secretCode", secretCode);
+                command.Parameters.AddWithValue("@rating", rating);
+                command.ExecuteNonQuery();
+            }
+        }
     }
 }

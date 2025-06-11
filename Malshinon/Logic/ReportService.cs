@@ -23,7 +23,7 @@ namespace Malshinon.Logic
                 {
                     connection.Open();
 
-                    string query = "INSERT INTO `report`(`reporter`, `target`, `ReportText`, `ReportingTime`) VALUES ('@Reporter','@Target','@ReportText','@ReportingTime')";
+                    string query = "INSERT INTO `report`(`reporter`, `target`, `ReportText`, `ReportingTime`) VALUES (@Reporter, @Target, @ReportText, @ReportingTime)";
 
                     MySqlCommand command = new MySqlCommand(query, connection);
 

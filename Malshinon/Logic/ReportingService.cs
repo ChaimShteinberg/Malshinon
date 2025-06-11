@@ -59,12 +59,12 @@ namespace Malshinon.Logic
             report.ReportingTime = userReport.ReportingTime;
 
             ReportService.CreateReport(report);
+
+            HandleRatings(report.Reporter, report.Target);
         }
 
         static Reporter? HandleReporter(UserReport userReport)
         {
-            
-
             Person person = PersonService.SearchPerson(userReport.Reporter);
             if (person == null)
             {
@@ -78,16 +78,13 @@ namespace Malshinon.Logic
                 ReporterService.CreateReporter(secretCode);
                 reporter = ReporterService.SearchReporter(secretCode);
             }
-            //עדיין לא טופל בדירוג
 
             return reporter;
         }
 
         static Target? HandleTarget(UserReport userReport)
         {
-
-
-            Person person = PersonService.SearchPerson(userReport.Reporter);
+            Person person = PersonService.SearchPerson(userReport.Target);
             if (person == null)
             {
                 return null;
@@ -106,5 +103,9 @@ namespace Malshinon.Logic
             return target;
         }
 
+        static void HandleRatings(int? reporterCode, int? targetCode)
+        {
+            ReporterService.CalculateReporterRating(reporterCode);
+        }
     }
 }

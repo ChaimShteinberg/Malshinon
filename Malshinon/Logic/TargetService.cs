@@ -25,12 +25,11 @@ namespace Malshinon.Logic
                 {
                     connection.Open();
 
-                    string query = "INSERT INTO `target`(`secret_code`, `report_count`, `rating`) VALUES ('@secretCode','@report_count','@rating')";
+                    string query = "INSERT INTO `target`(`secret_code`, `rating`) VALUES (@secretCode, @rating)";
 
                     MySqlCommand command = new MySqlCommand(query, connection);
 
                     command.Parameters.AddWithValue("@secretCode", secretCode);
-                    command.Parameters.AddWithValue("@report_count", 0);
                     command.Parameters.AddWithValue("@rating", 0);
 
                     command.ExecuteNonQuery();
@@ -66,7 +65,6 @@ namespace Malshinon.Logic
                     if (reader.Read())
                     {
                         target.SecretCode = secretCode;
-                        target.ReportCount = reader.GetInt32("long_report_count");
                         target.Rating = reader.GetInt32("Rating");
                         return target;
                     }

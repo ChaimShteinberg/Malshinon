@@ -9,7 +9,6 @@ namespace Malshinon.Models
     internal class Target
     {
         public int? SecretCode { get; set; }
-        public int? ReportCount { get; set; }
         public double? Rating { get; set; }
     }
 }

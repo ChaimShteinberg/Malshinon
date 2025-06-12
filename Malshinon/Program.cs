@@ -1,5 +1,6 @@
 ﻿using Malshinon.Logic;
 using Malshinon.Models;
+using MySql.Data.MySqlClient;
 
 namespace Malshinon
 {
@@ -8,14 +9,9 @@ namespace Malshinon
         static void Main(string[] args)
         {
             ReportingService.ReceiveReport();
-            
-            //Person a = SearchPerson.SearchPersonWithSecretCode(2);
-            //Console.WriteLine(a.Name);
-            //Console.WriteLine(a.SecretCode);
 
-            //Person b = SearchPerson.SearchPersonWithName("chaim");
-            //Console.WriteLine(b.Name);
-            //Console.WriteLine(b.SecretCode);
+            //TargetService.GetAllTarget();
+
         }
     }
 }

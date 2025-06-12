@@ -7,6 +7,7 @@ CREATE TABLE people (
     );
     
 CREATE TABLE report (
+    reportID INT PRIMARY KEY AUTO_INCREMENT,
     reporter INT,
     target INT,
     ReportText TEXT,

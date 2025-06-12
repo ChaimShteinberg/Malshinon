@@ -1,6 +1,4 @@
-﻿using Google.Protobuf.Compiler;
-using Malshinon.Models;
-using MySql.Data.MySqlClient;
+﻿using Malshinon.Models;
 using Mysqlx.Crud;
 using System;
 using System.Collections.Generic;
@@ -48,7 +46,7 @@ namespace Malshinon.Logic
             }
             report.Reporter = reporter.SecretCode;
 
-            Target target = HandleTarget(userReport);
+            Target? target = HandleTarget(userReport);
             if (target == null)
             {
                 return;
@@ -60,12 +58,12 @@ namespace Malshinon.Logic
 
             ReportService.CreateReport(report);
 
-            HandleRatings(report.Reporter, report.Target);
+            HandleRatings(report);
         }
 
         static Reporter? HandleReporter(UserReport userReport)
         {
-            Person person = PersonService.SearchPerson(userReport.Reporter);
+            Person? person = PersonService.SearchPerson(userReport.Reporter);
             if (person == null)
             {
                 return null;
@@ -84,7 +82,7 @@ namespace Malshinon.Logic
 
         static Target? HandleTarget(UserReport userReport)
         {
-            Person person = PersonService.SearchPerson(userReport.Target);
+            Person? person = PersonService.SearchPerson(userReport.Target);
             if (person == null)
             {
                 return null;
@@ -103,9 +101,10 @@ namespace Malshinon.Logic
             return target;
         }
 
-        static void HandleRatings(int? reporterCode, int? targetCode)
+        static void HandleRatings(Report report)
         {
-            ReporterService.CalculateReporterRating(reporterCode);
+            ReporterService.CalculateReporterRating(report);
+            TargetService.CalculateTargetRating(report);
         }
     }
 }

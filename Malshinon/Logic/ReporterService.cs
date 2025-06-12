@@ -76,10 +76,10 @@ namespace Malshinon.Logic
             return null;
         }        
 
-        public static void CalculateReporterRating(int? secretCode)
+        public static void CalculateReporterRating(Report report)
         {
-            int sum = GetSumReport(secretCode);
-            double averageLength = GetAverageLength(secretCode);
+            int sum = GetSumReport(report.Reporter);
+            double averageLength = GetAverageLength(report.Reporter);
 
             if (sum > 10)
             {
@@ -93,7 +93,7 @@ namespace Malshinon.Logic
 
             double rating = ((double) sum /4) + ((double) averageLength / 40);
 
-            ApdateRating(secretCode, rating);
+            ApdateRating(report.Reporter, rating);
         }
 
         public static int GetSumReport(int? secretCode)

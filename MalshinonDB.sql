@@ -27,3 +27,9 @@ CREATE TABLE target(
     rating FLOAT, 
     FOREIGN KEY (secret_code) REFERENCES people(secret_code)
     );
+    
+CREATE TABLE alert(
+    target int,
+    message text,
+    FOREIGN KEY (target) REFERENCES people(secret_code)
+    );

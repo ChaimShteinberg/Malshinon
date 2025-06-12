@@ -85,11 +85,22 @@ namespace Malshinon.Logic
             {
                 sum = 20;
             }
+
             double rating = sum / 4;
+
+            if (rating >= 5)
+            {
+                AlertService.TurnAlert(report.Target, "mention in 20 or more separate reports");
+            }
 
             if (urgent)
             {
                 rating = 5;
+            }
+
+            if (rating >= 5)
+            {
+                AlertService.TurnAlert(report.Target, "mention three or more times within a 15-minute window");
             }
 
             ApdateRating(report.Target, rating);
@@ -190,8 +201,8 @@ namespace Malshinon.Logic
                 }
                 foreach (Target tar in targets)
                 {
-                    Console.WriteLine(tar.SecretCode);
-                    Console.WriteLine(tar.Rating);
+                    Console.Write("the secret code is: " + tar.SecretCode);
+                    Console.WriteLine(" the rating is: " + tar.Rating);
                 }
             }
         }
